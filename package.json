@@ -1,0 +1,26 @@
+{
+  "name": "live-local",
+  "version": "1.0.0",
+  "description": "Local instance of live stream project that receives OBS streams.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index",
+    "start": "node index"
+  },
+  "keywords": [
+    "stream",
+    "live"
+  ],
+  "author": "Cyusa Kheven",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "node-media-server": "^2.5.0",
+    "nodemon": "^2.0.22"
+  }
+}
