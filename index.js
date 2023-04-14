@@ -25,17 +25,84 @@ const config = {
   http: {
     port: process.env.HTTP_PORT,
     allow_origin: "*",
+    mediaroot: "./media",
   },
   auth: {
     play: true,
     publish: true,
-    secret: "kheven",
+    secret,
+  },
+  trans: {
+    ffmpeg: process.env.FFMPG_PATH,
+    tasks: [
+      {
+        app: "live",
+        hls: true,
+        hlsFlags: "[hls_time=2:hls_list_size=3:hls_flags=delete_segments]",
+        hlsKeep: false,
+        dash: true,
+        dashFlags: "[f=dash:window_size=3:extra_window_size=5]",
+        dashKeep: false,
+      },
+    ],
   },
 };
 
 const nms = new NodeMediaServer(config);
 
 nms.run();
+
+nms.on("preConnect", (id, args) => {
+  console.log("Id: ", id, "\n", "Args: ", args);
+});
+
+nms.on("postConnect", (id, args) => {
+  console.log(
+    "[NodeEvent on postConnect]",
+    `id=${id} args=${JSON.stringify(args)}`
+  );
+});
+
+nms.on("prePublish", (id, StreamPath, args) => {
+  console.log(
+    "[NodeEvent on prePublish]",
+    `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`
+  );
+  // let session = nms.getSession(id);
+  // session.reject();
+});
+
+nms.on("prePlay", (id, StreamPath, args) => {
+  console.log(
+    "[NodeEvent on prePlay]",
+    `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`
+  );
+  let session = nms.getSession(id);
+  // session.reject();
+
+  // function fnBrowserDetect() {
+  //   let userAgent = navigator.userAgent;
+  //   let browserName;
+
+  //   if (userAgent.match(/chrome|chromium|crios/i)) {
+  //     browserName = "chrome";
+  //   } else if (userAgent.match(/firefox|fxios/i)) {
+  //     browserName = "firefox";
+  //   } else if (userAgent.match(/safari/i)) {
+  //     browserName = "safari";
+  //   } else if (userAgent.match(/opr\//i)) {
+  //     browserName = "opera";
+  //   } else if (userAgent.match(/edg/i)) {
+  //     browserName = "edge";
+  //   } else {
+  //     browserName = "No browser detection";
+  //   }
+
+  //   return browserName;
+  // }
+  // if (fnBrowserDetect() == "No browser detection") session.reject();
+  console.log(StreamPath);
+});
 
 app.use((req, res, next) => {
   console.log(req.ips, req.baseUrl, req.originalUrl);
