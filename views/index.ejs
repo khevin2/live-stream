@@ -1,28 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Stream</title>
-</head>
+<%- include("./partials/Head") %>
 
 <body>
-    <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
-    <video id="videoElement"></video>
-    <script>
-        if (flvjs.isSupported()) {
-            var videoElement = document.getElementById('videoElement');
-            var flvPlayer = flvjs.createPlayer({
-                type: 'flv',
-                url: '<%=`${URL}`%>:8000/live/stream.flv?sign=1681430400000-d991b017675bd9b6147b48e91c4aa933'
-            });
-            flvPlayer.attachMediaElement(videoElement);
-            flvPlayer.load();
-            flvPlayer.play();
-        }
-    </script>
+
+  <%- include("./partials/Header") %>
+
+  <%- include("./partials/Slider") %>
+
+  <%- include("./partials/Quote") %>
+
+  <%- include("./partials/Footer") %>
+
+  <%- include("./partials/Copyright") %>
+
+<%- include("./partials/Scripts") %>
+
 </body>
+
 
 </html>

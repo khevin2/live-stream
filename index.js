@@ -2,40 +2,65 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 
+
+import routes from "./routes/index.js"
+import nms from "./utils/nms.util.js"
+
 const app = express();
 
-import NodeMediaServer from "node-media-server";
-import jwt from "jsonwebtoken";
-
-// Set up a secret key for JWT
-const secret = process.env.TOKEN_SECRET;
-
-// Generate a token with an expiry time of 1 hour
-const token = jwt.sign({}, secret, { expiresIn: "1h" });
-
-const config = {
-  logType: 3,
-  rtmp: {
-    port: process.env.RTMP_PORT,
-    chunk_size: 60000,
-    gop_cache: true,
-    ping: 60,
-    ping_timeout: 30,
-  },
-  http: {
-    port: process.env.HTTP_PORT,
-    allow_origin: "*",
-  },
-  auth: {
-    play: true,
-    publish: true,
-    secret: "kheven",
-  },
-};
-
-const nms = new NodeMediaServer(config);
-
 nms.run();
+
+nms.on("preConnect", (id, args) => {
+  console.log("Id: ", id, "\n", "Args: ", args);
+});
+
+nms.on("postConnect", (id, args) => {
+  console.log(
+    "[NodeEvent on postConnect]",
+    `id=${id} args=${JSON.stringify(args)}`
+  );
+});
+
+nms.on("prePublish", (id, StreamPath, args) => {
+  console.log(
+    "[NodeEvent on prePublish]",
+    `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`
+  );
+  // let session = nms.getSession(id);
+  // session.reject();
+});
+
+nms.on("prePlay", (id, StreamPath, args) => {
+  console.log(
+    "[NodeEvent on prePlay]",
+    `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`
+  );
+  let session = nms.getSession(id);
+  // session.reject();
+
+  // function fnBrowserDetect() {
+  //   let userAgent = navigator.userAgent;
+  //   let browserName;
+
+  //   if (userAgent.match(/chrome|chromium|crios/i)) {
+  //     browserName = "chrome";
+  //   } else if (userAgent.match(/firefox|fxios/i)) {
+  //     browserName = "firefox";
+  //   } else if (userAgent.match(/safari/i)) {
+  //     browserName = "safari";
+  //   } else if (userAgent.match(/opr\//i)) {
+  //     browserName = "opera";
+  //   } else if (userAgent.match(/edg/i)) {
+  //     browserName = "edge";
+  //   } else {
+  //     browserName = "No browser detection";
+  //   }
+
+  //   return browserName;
+  // }
+  // if (fnBrowserDetect() == "No browser detection") session.reject();
+  console.log(StreamPath);
+});
 
 app.use((req, res, next) => {
   console.log(req.ips, req.baseUrl, req.originalUrl);
@@ -44,9 +69,9 @@ app.use((req, res, next) => {
 
 app.set("views", "./views");
 app.set("view engine", "ejs");
-app.get("/stream", (req, res) => {
-  res.render("index", { URL: process.env.APP_URL });
-});
+app.use("/static", express.static("public"))
+
+app.use(routes)
 
 const PORT = process.env.WEBSERVER_PORT || 8001;
 
