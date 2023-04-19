@@ -7,7 +7,7 @@
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "dev": "nodemon -e js,ejs,html -w . -w public -w views -w routes -w models index",
-    "start": "pm2 restart index.js"
+    "start": "pm2 restart index"
   },
   "keywords": [
     "stream",
