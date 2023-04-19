@@ -16,8 +16,8 @@ jobs:
           host: ${{ secrets.AWS_HOST }}
           username: ${{ secrets.AWS_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          env:
-            PATH: $PATH:/home/ubuntu/.nvm/versions/node/v18.15.0/bin/npm
+        env:
+          PATH: $PATH:/home/ubuntu/.nvm/versions/node/v18.15.0/bin/npm
           script: |
            cd ~/live-stream
            git pull
