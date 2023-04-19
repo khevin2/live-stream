@@ -21,7 +21,5 @@ jobs:
           script: |
            cd ~/live-stream
            git stash && git pull
-           /home/ubuntu/.nvm/versions/node/v18.15.0/bin/npm -v
-           /home/ubuntu/.nvm/versions/node/v18.15.0/bin/node -v
            chmod +x start.sh
            ./start.sh
