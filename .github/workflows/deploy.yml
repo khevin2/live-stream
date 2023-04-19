@@ -20,4 +20,5 @@ jobs:
             cd ~/live-stream
             git pull
             chmod +x start.sh
+            whoami
             ./start.sh
