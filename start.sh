@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install dependencies
-npm ci
+/home/ubuntu/.nvm/versions/node/v18.15.0/bin/npm ci
 
 # Start the app
-pm2 restart index.js
+/home/ubuntu/.nvm/versions/node/v18.15.0/bin/pm2 restart index.js
