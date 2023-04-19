@@ -20,6 +20,7 @@ jobs:
            cd ~/live-stream
            git pull
            /home/ubuntu/.nvm/versions/node/v18.15.0/bin/node -v
+           /home/ubuntu/.nvm/versions/node/v18.15.0/bin/npm ci
            npm ci
            chmod +x start.sh
            ./start.sh
