@@ -19,4 +19,5 @@ jobs:
           script: |
             cd ~/live-stream
             git pull
+            chmod +x start.sh
             ./start.sh
