@@ -1,7 +1,12 @@
 #!/bin/bash
 
+# Set the path to the directory containing the npm binary
+NPM_DIR="/home/ubuntu/.nvm/versions/node/v18.15.0/bin"
+
+export PATH=$PATH:$NPM_DIR
+
 # Install dependencies
-/home/ubuntu/.nvm/versions/node/v18.15.0/bin/npm ci
+npm ci
 
 # Start the app
-/home/ubuntu/.nvm/versions/node/v18.15.0/bin/pm2 restart index.js
+npm start
