@@ -19,5 +19,4 @@ jobs:
           script: |
             cd ~/live-stream
             git pull
-            npm ci
-            npm start
+            ./start.sh
