@@ -3,10 +3,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-import routes from "./routes/index.js"
+
 import nms from "./utils/nms.util.js"
 
-const app = express();
+import createServer from "./utils/server.js"
 
 nms.run();
 
@@ -62,17 +62,10 @@ nms.on("prePlay", (id, StreamPath, args) => {
   console.log(StreamPath);
 });
 
-app.use((req, res, next) => {
-  console.log(req.ips, req.baseUrl, req.originalUrl);
-  next();
-});
 
-app.set("views", "./views");
-app.set("view engine", "ejs");
-app.use("/static", express.static("public"))
-
-app.use(routes)
 
 const PORT = process.env.WEBSERVER_PORT || 8001;
+
+const app = createServer()
 
 app.listen(PORT, () => console.log("App is up on port: ", PORT));

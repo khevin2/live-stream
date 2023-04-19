@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "dev": "nodemon -e js,ejs,html -w . -w public -w views -w routes -w models index",
     "start": "node index"
   },
@@ -22,5 +22,9 @@
     "jsonwebtoken": "^9.0.0",
     "node-media-server": "^2.5.0",
     "nodemon": "^2.0.22"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3"
   }
 }

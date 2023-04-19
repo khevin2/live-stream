@@ -1,0 +1,38 @@
+version: 2.1
+orbs:
+  node: circleci/node@5.0.2
+
+jobs:
+  live-stream:
+    executor: node/default
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "${FINGERPRINT_DEPLOY}"
+      - run:
+          name: Install dependencies
+          command: |
+            npm ci
+      - run:
+          name: show content
+          command: |
+            cat ~/.ssh/id_rsa
+      - run:
+          name: show content
+          command: |
+            ls ~/.ssh
+      - run:
+          name: Deploy to LightSail
+          command: |
+            ssh -i ~/.ssh/id_rsa ${AWS_VPS_USER}@${AWS_VPS_IP} 'cd ~/live-stream && git pull origin develop && npm ci && npm start'
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - live-stream:
+          filters:
+            branches:
+              only:
+                - develop
