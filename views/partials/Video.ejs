@@ -1,5 +1,5 @@
-<script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
-<script src="https://unpkg.com/flv.js@1.6.2/dist/flv.js"></script>
+<!-- <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script> -->
+<script src="https://unpkg.com/flv.js@1.5.0/dist/flv.js"></script>
 <div class="continer-fluid px-5">
   <div class="row">
     <video id="videoElement" class="col-8"></video>
@@ -31,37 +31,37 @@
     return browserName;
   }
 
-  if(fnBrowserDetect()!="No browser detection"&& FlvPlayer.isSupported()) {
+  if(fnBrowserDetect()!="No browser detection"&& flvjs.isSupported()) {
     var videoElement=document.getElementById('videoElement');
-    // var flvPlayer=flvjs.createPlayer({
-    //   type: 'flv',
-    //   url: '<%=`${URL}`%>:8000/live/stream.flv?sign=1681430400000-d991b017675bd9b6147b48e91c4aa933'
-    // });
-    // flvPlayer.attachMediaElement(videoElement);
-    // flvPlayer.load();
-    // flvPlayer.play();
-    const flv=new FlvPlayer({
-      container: '#videoElement',
-      poster: '/static/assets/images/logo.jpg',
-      url: '<%=`${URL}`%>:8000/live/stream.flv?sign=1681430400000-d991b017675bd9b6147b48e91c4aa933',
-      // decoder: './uncompiled/flvplayer-decoder-baseline.js',
-      // decoder: './uncompiled/flvplayer-decoder-multiple.js',
-      debug: true,
-      live: true,
-      loop: true,
-      autoPlay: true,
-      hasAudio: true,
-      control: true,
-      muted: false,
-      volume: 0.7,
-      frameRate: 30,
-      maxTimeDiff: 200,
-      videoChunk: 1024*1024,
-      audioChunk: 64*1024,
-      width: 640,
-      height: 360,
+    var flvPlayer=flvjs.createPlayer({
+      type: 'flv',
+      url: '<%=`${URL}`%>:8000/live/stream.flv?sign=1681430400000-d991b017675bd9b6147b48e91c4aa933'
     });
+    flvPlayer.attachMediaElement(videoElement);
     flvPlayer.load();
     flvPlayer.play();
+    // const flv=new FlvPlayer({
+    //   container: '#videoElement',
+    //   poster: '/static/assets/images/logo.jpg',
+    //   url: '<%=`${URL}`%>:8000/live/stream.flv?sign=1681430400000-d991b017675bd9b6147b48e91c4aa933',
+    //   // decoder: './uncompiled/flvplayer-decoder-baseline.js',
+    //   // decoder: './uncompiled/flvplayer-decoder-multiple.js',
+    //   debug: true,
+    //   live: true,
+    //   loop: true,
+    //   autoPlay: true,
+    //   hasAudio: true,
+    //   control: true,
+    //   muted: false,
+    //   volume: 0.7,
+    //   frameRate: 30,
+    //   maxTimeDiff: 200,
+    //   videoChunk: 1024*1024,
+    //   audioChunk: 64*1024,
+    //   width: 640,
+    //   height: 360,
+    // });
+    // flvPlayer.load();
+    // flvPlayer.play();
   }
 </script>
