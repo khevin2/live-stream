@@ -1,9 +1,8 @@
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 import NodeMediaServer from "node-media-server";
 import jwt from "jsonwebtoken";
 
-dotenv.config()
-
+dotenv.config();
 
 // Set up a secret key for JWT
 const secret = process.env.TOKEN_SECRET;
@@ -12,7 +11,7 @@ const secret = process.env.TOKEN_SECRET;
 const token = jwt.sign({}, secret, { expiresIn: "1h" });
 
 const config = {
-  logType: 3,
+  logType: 1,
   rtmp: {
     port: process.env.RTMP_PORT,
     chunk_size: 60000,
@@ -29,23 +28,26 @@ const config = {
     play: true,
     publish: true,
     secret,
+    api: true,
+    api_user: process.env.API_USER_USER,
+    api_pass: process.env.API_USER_PASS,
   },
-  trans: {
-    ffmpeg: process.env.FFMPG_PATH,
-    tasks: [
-      {
-        app: "live",
-        hls: true,
-        hlsFlags: "[hls_time=2:hls_list_size=3:hls_flags=delete_segments]",
-        hlsKeep: false,
-        dash: true,
-        dashFlags: "[f=dash:window_size=3:extra_window_size=5]",
-        dashKeep: false,
-      },
-    ],
-  },
+  // trans: {
+  //   ffmpeg: process.env.FFMPG_PATH,
+  //   tasks: [
+  //     {
+  //       app: "live",
+  //       hls: true,
+  //       hlsFlags: "[hls_time=2:hls_list_size=3:hls_flags=delete_segments]",
+  //       hlsKeep: false,
+  //       dash: true,
+  //       dashFlags: "[f=dash:window_size=3:extra_window_size=5]",
+  //       dashKeep: false,
+  //     },
+  //   ],
+  // },
 };
 
 const nms = new NodeMediaServer(config);
 
-export default nms
+export default nms;
