@@ -5,7 +5,8 @@
   <div class="row mx-0 px-0">
     <!-- <video id="videoElement" class="col-md-8 mx-0 px-0"></video> -->
     <div class="col-md-8 mx-0 px-0 video_view p-relative">
-      <canvas id="video1" width="100%" height="100%" style="width:100%;height:100%;" ondblclick="fullFunc()"></canvas>
+      <canvas id="video1" width="100%" height="100%" style="width:100%;height:100%;"
+        ondblclick="handleDoubleClick()"></canvas>
       <div class="controls">
         <button class="custom-btn" onclick="startFunc"><img
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAIRJREFUSEtjZKAxYKSx+QyjFhAM4QEPotVAJ9YC8Q2CTsWhgJAP/kP1NQDpRnIsIdYCkNkgX4B8s4YUi0ixAGYuyAKig40cC2AWERVslFhAVLANagtAqQoUTHgBOT6gWSTTNJkSlWKwhRWhIKJ5UUEoDgnKE/IBQQMIKRi1gFAI0b7SBwBI1x4ZH+4a+gAAAABJRU5ErkJggg==" /></button>
@@ -29,6 +30,7 @@
 </div>
 <script type="text/javascript" src="/static/assets/plugins/NodePlayer/NodePlayer.min.js"></script>
 <script>
+  let fullscreen = false
   function fnBrowserDetect() {
 
     let userAgent = navigator.userAgent;
@@ -74,9 +76,54 @@
     player.stop();
   };
 
+  const video = document.getElementById('video1');
+
+  // Function to resize the element
+  // function handleResize() {
+  //   // Get the new dimensions of the window
+  //   const width = window.innerWidth;
+  //   const height = window.innerHeight;
+
+  //   // Set the new dimensions for the element
+  //   video.style.width = `${width}px`;
+  //   video.style.height = `${height}px`;
+  // }
+
+  // // Attach the resizeElement function to the window's resize event
+  // window.addEventListener('resize', handleResize);
+
+  // // Call the handleResize function initially to set the initial dimensions
+  // handleResize();
+
+  window.addEventListener('resize', () => player.onResize());
+
+
+
   function fullFunc() {
-    player.fullscreen();
+    console.log(player)
+    if (!document.fullscreen) {
+      player.fullscreen();
+      fullscreen = true
+    }
+    else document.exitFullscreen()
   };
+
+  function handleDoubleClick() {
+    const video = document.getElementById('video1')
+    if (!fullscreen) {
+      if (document.exitFullscreen) {
+        video.exitFullscreen();
+      } else if (document.mozCancelFullScreen) { // Firefox
+        video.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+        video.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { // IE/Edge
+        video.msExitFullscreen();
+      }
+    }
+    else video.requestFullscreen()
+    // console.log('not in full')
+  }
 
   function volumeChange(event) {
     player.setVolume(event.target.value / 100.0);
