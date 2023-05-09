@@ -1,67 +1,129 @@
 <!-- <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script> -->
 <script src="https://unpkg.com/flv.js@1.5.0/dist/flv.js"></script>
-<div class="continer-fluid px-5">
-  <div class="row">
-    <video id="videoElement" class="col-8"></video>
-    <div class="col-4">stuff</div>
+<!-- <script type="text/javascript" src="https://cdn.nodemedia.cn/NodePlayer/0.5.79-asm/NodePlayer-full.min.js"></script> -->
+<div class="container-fluid px-md-5">
+  <div class="row mx-0 px-0">
+    <!-- <video id="videoElement" class="col-md-8 mx-0 px-0"></video> -->
+    <div class="col-md-8 mx-0 px-0 video_view p-relative">
+      <canvas id="video1" width="100%" height="100%" style="width:100%;height:100%;" ondblclick="fullFunc()"></canvas>
+      <div class="controls">
+        <button class="custom-btn" onclick="startFunc"><img
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAIRJREFUSEtjZKAxYKSx+QyjFhAM4QEPotVAJ9YC8Q2CTsWhgJAP/kP1NQDpRnIsIdYCkNkgX4B8s4YUi0ixAGYuyAKig40cC2AWERVslFhAVLANagtAqQoUTHgBOT6gWSTTNJkSlWKwhRWhIKJ5UUEoDgnKE/IBQQMIKRi1gFAI0b7SBwBI1x4ZH+4a+gAAAABJRU5ErkJggg==" /></button>
+        <button class="custom-btn" onclick="fullFunc()"><img
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAF9JREFUSEtjZKAxYKSx+Qx0t+A/Hh+hO4YotWRpgjqCIgvIDTqYpXD9uHwwasHABRHV8x25kUm0Q4afBRgZheiwgCgczWgEA2zwBBE2p5JVtJOliZL6gGAgk6pg6OdkAC7EHBkhfFrcAAAAAElFTkSuQmCC" /></button>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        <img src="/static/assets/images/rmamci.jpg" alt="Live Champions League" class="w-50 h-auto mx-auto">
+      </div>
+      <div class="row">
+
+        <p class="text-center mx-auto mt-2">
+          Real Madrid Vs Manchester City
+        </p>
+      </div>
+    </div>
   </div>
 
 </div>
-
+<script type="text/javascript" src="/static/assets/plugins/NodePlayer/NodePlayer.min.js"></script>
 <script>
   function fnBrowserDetect() {
 
-    let userAgent=navigator.userAgent;
+    let userAgent = navigator.userAgent;
     let browserName;
 
-    if(userAgent.match(/chrome|chromium|crios/i)) {
-      browserName="chrome";
-    } else if(userAgent.match(/firefox|fxios/i)) {
-      browserName="firefox";
-    } else if(userAgent.match(/safari/i)) {
-      browserName="safari";
-    } else if(userAgent.match(/opr\//i)) {
-      browserName="opera";
-    } else if(userAgent.match(/edg/i)) {
-      browserName="edge";
+    if (userAgent.match(/chrome|chromium|crios/i)) {
+      browserName = "chrome";
+    } else if (userAgent.match(/firefox|fxios/i)) {
+      browserName = "firefox";
+    } else if (userAgent.match(/safari/i)) {
+      browserName = "safari";
+    } else if (userAgent.match(/opr\//i)) {
+      browserName = "opera";
+    } else if (userAgent.match(/edg/i)) {
+      browserName = "edge";
     } else {
-      browserName="No browser detection";
+      browserName = "No browser detection";
     }
 
     return browserName;
   }
 
-  if(fnBrowserDetect()!="No browser detection"&& flvjs.isSupported()) {
-    var videoElement=document.getElementById('videoElement');
-    var flvPlayer=flvjs.createPlayer({
-      type: 'flv',
-      url: '<%=`${URL}`%>/live/stream.flv?sign=1681430400000-d991b017675bd9b6147b48e91c4aa933'
-    });
-    flvPlayer.attachMediaElement(videoElement);
-    flvPlayer.load();
-    flvPlayer.play();
-    // const flv=new FlvPlayer({
-    //   container: '#videoElement',
-    //   poster: '/static/assets/images/logo.jpg',
-    //   url: '<%=`${URL}`%>:8000/live/stream.flv?sign=1681430400000-d991b017675bd9b6147b48e91c4aa933',
-    //   // decoder: './uncompiled/flvplayer-decoder-baseline.js',
-    //   // decoder: './uncompiled/flvplayer-decoder-multiple.js',
-    //   debug: true,
-    //   live: true,
-    //   loop: true,
-    //   autoPlay: true,
-    //   hasAudio: true,
-    //   control: true,
-    //   muted: false,
-    //   volume: 0.7,
-    //   frameRate: 30,
-    //   maxTimeDiff: 200,
-    //   videoChunk: 1024*1024,
-    //   audioChunk: 64*1024,
-    //   width: 640,
-    //   height: 360,
-    // });
-    // flvPlayer.load();
-    // flvPlayer.play();
+  // if (NodePlayer) {
+  let player;
+  NodePlayer.load(() => {
+    player = new NodePlayer();
+
+    if (/(Android)/i.test(navigator.userAgent)) {
+      NodePlayer.activeAudioEngine(true);
+    }
+
+    player.setView("video1");
+    player.setScaleMode('auto');
+    player.setKeepScreenOn();
+    player.setBufferTime(5000);
+    player.start('<%=`${URL}`%>/live/stream.flv?sign=1681430400000-d991b017675bd9b6147b48e91c4aa933');
+  });
+  function startFunc() {
+    player.start('<%=`${URL}`%>/live/stream.flv?sign=1681430400000-d991b017675bd9b6147b48e91c4aa933');
+  };
+  function stopFunc() {
+
+    player.stop();
+  };
+
+  function fullFunc() {
+    player.fullscreen();
+  };
+
+  function volumeChange(event) {
+    player.setVolume(event.target.value / 100.0);
   }
+
+
+  function bufferChange(event) {
+    player.setBufferTime(event.target.value);
+  }
+  console.log("player outside: ", player)
+
+  // }
+
+  /*
+   if (fnBrowserDetect() != "No browser detection" && flvjs.isSupported()) {
+     var videoElement = document.getElementById('videoElement');
+     var flvPlayer = flvjs.createPlayer({
+       type: 'flv',
+       url: '<%=`${URL}`%>/live/stream.flv?sign=1681430400000-d991b017675bd9b6147b48e91c4aa933'
+     });
+     flvPlayer.attachMediaElement(videoElement);
+     flvPlayer.load();
+     // flvPlayer.play();
+     console.log(flvPlayer)
+     // const flv=new FlvPlayer({
+     //   container: '#videoElement',
+     //   poster: '/static/assets/images/logo.jpg',
+     //   url: '<%=`${URL}`%>:8000/live/stream.flv?sign=1681430400000-d991b017675bd9b6147b48e91c4aa933',
+     //   // decoder: './uncompiled/flvplayer-decoder-baseline.js',
+     //   // decoder: './uncompiled/flvplayer-decoder-multiple.js',
+     //   debug: true,
+     //   live: true,
+     //   loop: true,
+     //   autoPlay: true,
+     //   hasAudio: true,
+     //   control: true,
+     //   muted: false,
+     //   volume: 0.7,
+     //   frameRate: 30,
+     //   maxTimeDiff: 200,
+     //   videoChunk: 1024*1024,
+     //   audioChunk: 64*1024,
+     //   width: 640,
+     //   height: 360,
+     // });
+     // flvPlayer.load();
+     // flvPlayer.play();
+   }
+   */
 </script>

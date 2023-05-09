@@ -1,10 +1,10 @@
-import express from "express"
-import viewsRoutes from "./views.routes.js"
+import express from "express";
+import viewsRoutes from "./views.routes.js";
+import matchesRoutes from "./matches.routes.js";
 
-const route = express.Router()
+const route = express.Router();
 
-route.use("/", viewsRoutes)
+route.use("/matches", matchesRoutes);
+route.use("/", viewsRoutes);
 
-
-
-export default route
+export default route;

@@ -1,0 +1,39 @@
+.video_view {
+  width: 640px;
+  height: 480px;
+  background-color: black;
+}
+
+@media (max-width: 600px) {
+  .video_view {
+    height: 200px;
+  }
+}
+
+.p-relative {
+  position: relative;
+}
+
+.controls {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom-btn {
+  height: 100%;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0.404);
+}
+
+.custom-btn img {
+  height: 100%;
+}
