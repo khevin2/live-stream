@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 const { connect } = mongoose;
-import env from "dotenv";
-const { config } = env;
-config({ path: "./.env" });
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const conn = connect(process.env.DB_URL, {
   useNewUrlParser: true,
