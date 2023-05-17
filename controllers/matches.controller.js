@@ -79,3 +79,14 @@ export async function updateMatchById(req, res) {
     res.status(500).json({ error: err.message });
   }
 }
+
+export async function deleteMatchById(req, res) {
+  try {
+    const matchId = req.params.matchId;
+    await Match.findByIdAndDelete(matchId);
+    res.status(200).json({ message: "Match deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+}
